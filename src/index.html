@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Colors</title>
+  
+  <link rel="stylesheet" href="./styles/app.css">
+</head>
+<body class="font-sans antialiased bg-gray-200 text-gray-500" x-data="colors" x-bind:style="{backgroundColor: color}">
+    <div class="flex justify-center items-center min-h-screen p-6">
+      <div class="w-full max-w-xl">
+        <div class="flex bg-white items-center rounded shadow-lg px-2 py-2">
+          <div class="w-6 h-6 border border-gray-200 rounded-full mr-3 bg-gray-200" x-bind:style="{backgroundColor: color}"></div>
+          <input type="text" class="flex-1 font-mono w-full text-lg outline-none" placeholder="Enter any color value" x-ref="query" x-model="query">
+        </div>
+
+        <template x-if="color !== null">
+          <div class="bg-white w-full p-6 rounded shadow-lg mt-3">
+            <div class="grid grid-cols-2 gap-x-3 gap-y-2">
+              <div class="text-right">Hex</div>
+              <div><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toHex()"></span></span></div>
+              <div class="text-right">RGB decimal</div>
+              <div><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toRgb()"></span></span></div>
+              <div class="text-right">RGB percent</div>
+              <div><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toRgbPercent()"></span></span></div>
+              <div class="text-right">HSL</div>
+              <div><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toHsl()"></span></span></div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./scripts/app.js"></script>
+</body>
+</html>

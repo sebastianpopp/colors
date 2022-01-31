@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*[tooltip] {
+  position: relative;
+}
+
+*[tooltip]::before,
+*[tooltip]::after {
+  font-size: .8em;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  opacity: 0;
+  transition: all 100ms ease;
+  transform: translate(5px, -50%);
+}
+
+*[tooltip]::before {
+  content: '';
+  z-index: 1001;
+  top: 50%;
+  left: calc(100% + 7px);
+  border: 7px solid transparent;
+  border-left-width: 0;
+  border-right-color: #343a40;
+}
+
+*[tooltip]::after {
+  content: attr(tooltip);
+  text-align: center;
+  min-width: 50px;
+  max-width: 250em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 8px 12px;
+  border-radius: 3px;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+  background: #343a40;
+  color: #f8f9fa;
+  z-index: 1000;
+  top: 50%;
+  left: calc(100% + 13px);
+}
+
+*[tooltip]:hover::before,
+*[tooltip]:hover::after {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
