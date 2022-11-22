@@ -26,6 +26,10 @@ class Color {
     );
   }
 
+  toName() {
+    return convert.rgb.keyword([this.r, this.g, this.b]);
+  }
+
   toHex() {
     return '#' + convert.rgb.hex(this.r, this.g, this.b);
   }
@@ -46,6 +50,18 @@ class Color {
     const [h, s, l] = convert.rgb.hsl(this.r, this.g, this.b);
     
     return `hsl(${h}, ${s}%, ${l}%)`;
+  }
+
+  toHsv() {
+    const [h, s, v] = convert.rgb.hsv(this.r, this.g, this.b);
+
+    return `hsv(${h}, ${s}%, ${v}%)`;
+  }
+
+  toCmyk() {
+    const [c, m, y, k] = convert.rgb.cmyk(this.r, this.g, this.b);
+
+    return `${c}%, ${m}%, ${y}%, ${k}%`;
   }
 
   toSwift() {

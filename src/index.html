@@ -19,6 +19,9 @@
         <template x-if="color !== null">
           <div class="bg-white w-full p-6 rounded shadow-lg mt-3">
             <div class="grid grid-cols-3 gap-x-3 gap-y-2">
+              <div class="text-right">Color name</div>
+              <div class="col-span-2"><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toName()"></span></span></div>
+              
               <div class="text-right">Hex</div>
               <div class="col-span-2"><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toHex()"></span></span></div>
               
@@ -30,6 +33,12 @@
               
               <div class="text-right">HSL</div>
               <div class="col-span-2"><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toHsl()"></span></span></div>
+              
+              <div class="text-right">HSV</div>
+              <div class="col-span-2"><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toHsv()"></span></span></div>
+              
+              <div class="text-right">CMYK</div>
+              <div class="col-span-2"><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toCmyk()"></span></span></div>
               
               <div class="text-right">Swift</div>
               <div class="col-span-2"><span x-on:click="copy()" tooltip="Click to copy"><span class="font-mono" x-text="color && color.toSwift()"></span></span></div>
