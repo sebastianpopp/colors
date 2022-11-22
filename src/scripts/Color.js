@@ -48,6 +48,20 @@ class Color {
     return `hsl(${h}, ${s}%, ${l}%)`;
   }
 
+  toSwift() {
+    const [r, g, b] = [this.r, this.g, this.b].map(v => (v / 255).toFixed(2));
+    const a = this.a.toFixed(2);
+
+    return `UIColor(red: ${r}, green: ${g}, blue: ${b}, alpha: ${a})`;
+  }
+
+  toObjc() {
+    const [r, g, b] = [this.r, this.g, this.b].map(v => (v / 255).toFixed(2));
+    const a = this.a.toFixed(2);
+
+    return `[UIColor colorWithRed:${r} green:${g} blue:${b} alpha:${a}]`;
+  }
+
   toString() {
     return this.toRgba();
   }
