@@ -32,6 +32,15 @@ Alpine.data('colors', () => ({
       this.color = colorParser.isColor()
         ? colorParser.getColor()
         : null;
+
+      if (this.query !== '' && !colors.includes(this.query)) {
+        window._paq = window._paq || [];
+        _paq.push(['trackSiteSearch',
+          this.query,
+          false,
+          this.color === null ? 0 : 1
+        ]);
+      }
     })
   },
 
