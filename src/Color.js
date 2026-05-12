@@ -55,6 +55,45 @@ class Color {
     return `hsv(${h} ${s}% ${v}%${this.a === 1 ? '' : ` / ${this.a}`})`;
   }
 
+  toOklch() {
+    // Convert RGB to OKLch
+    // First, normalize RGB to 0-1
+    const r = this.r / 255;
+    const g = this.g / 255;
+    const b = this.b / 255;
+
+    // Apply inverse sRGB gamma correction
+    const rLinear = r <= 0.04045 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
+    const gLinear = g <= 0.04045 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4);
+    const bLinear = b <= 0.04045 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4);
+
+    // Convert linear RGB to LMS
+    const l = 0.4122214708 * rLinear + 0.5291605794 * gLinear + 0.0193738469 * bLinear;
+    const m = 0.2119034982 * rLinear + 0.6806995451 * gLinear + 0.1073969566 * bLinear;
+    const s = 0.0883024619 * rLinear + 0.2817188376 * gLinear + 0.6299787005 * bLinear;
+
+    // Convert LMS to OKLab
+    const lCube = Math.cbrt(l);
+    const mCube = Math.cbrt(m);
+    const sCube = Math.cbrt(s);
+
+    const L = 0.2104542553 * lCube + 0.7936177850 * mCube - 0.0040720468 * sCube;
+    const a = 1.9779984951 * lCube - 2.4285922050 * mCube + 0.4505937099 * sCube;
+    const b_lab = 0.0259040371 * lCube + 0.7827717662 * mCube - 0.8086757660 * sCube;
+
+    // Convert OKLab to OKLch
+    const C = Math.sqrt(a * a + b_lab * b_lab);
+    let h = Math.atan2(b_lab, a) * 180 / Math.PI;
+    if (h < 0) h += 360;
+
+    // Format values
+    const lightness = Math.round(L * 100);
+    const chroma = C.toFixed(3);
+    const hue = h.toFixed(3);
+
+    return `oklch(${lightness}% ${chroma} ${hue}${this.a === 1 ? '' : ` / ${this.a}`})`;
+  }
+
   toCmyk() {
     const [c, m, y, k] = convert.rgb.cmyk(this.r, this.g, this.b);
 

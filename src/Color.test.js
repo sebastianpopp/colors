@@ -250,6 +250,28 @@ describe('Color', () => {
     });
   });
 
+  describe('toOklch', () => {
+    it('converts to OKLch format', () => {
+      const color = Color.fromRgb(13, 148, 136);
+      expect(color.toOklch()).toBe('oklch(60% 0.125 184.021)');
+    });
+
+    it('converts red to OKLch', () => {
+      const color = Color.fromRgb(255, 0, 0);
+      expect(color.toOklch()).toBe('oklch(63% 0.258 29.234)');
+    });
+
+    it('includes alpha channel', () => {
+      const color = new Color(13, 148, 136, 0.5);
+      expect(color.toOklch()).toBe('oklch(60% 0.125 184.021 / 0.5)');
+    });
+
+    it('includes alpha channel for white', () => {
+      const color = new Color(255, 255, 255, 0.5);
+      expect(color.toOklch()).toBe('oklch(100% 0.026 180.750 / 0.5)');
+    });
+  });
+
   describe('toCmyk', () => {
     it('converts to CMYK format', () => {
       const color = Color.fromRgb(255, 0, 0);
