@@ -1,5 +1,5 @@
 import Color from './Color.js';
-import htmlColors from './html_colors.json';
+import colors from 'color-name';
 
 class ColorParser {
   constructor(query) {
@@ -27,8 +27,8 @@ class ColorParser {
   }
 
   _parseHtmlColor() {
-    if (typeof htmlColors[this.query] !== 'undefined') {
-      this.colors.push(Color.fromHex(htmlColors[this.query]));
+    if (typeof colors[this.query] !== 'undefined') {
+      this.colors.push(Color.fromRgb(...colors[this.query]));
     }
   }
 
