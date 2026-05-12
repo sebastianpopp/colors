@@ -149,96 +149,104 @@ describe('Color', () => {
   describe('toRgb', () => {
     it('converts to rgb() format', () => {
       const color = Color.fromRgb(255, 0, 0);
-      expect(color.toRgb()).toBe('rgb(255, 0, 0)');
+      expect(color.toRgb()).toBe('rgb(255 0 0)');
     });
 
-    it('formats RGB values as comma-separated integers', () => {
+    it('formats RGB values as space-separated integers', () => {
       const color = Color.fromRgb(100, 150, 200);
-      expect(color.toRgb()).toBe('rgb(100, 150, 200)');
+      expect(color.toRgb()).toBe('rgb(100 150 200)');
     });
 
     it('converts black', () => {
       const color = Color.fromRgb(0, 0, 0);
-      expect(color.toRgb()).toBe('rgb(0, 0, 0)');
-    });
-  });
-
-  describe('toRgba', () => {
-    it('converts to rgba() format with alpha value', () => {
-      const color = new Color(255, 0, 0, 1);
-      expect(color.toRgba()).toBe('rgba(255, 0, 0, 1)');
+      expect(color.toRgb()).toBe('rgb(0 0 0)');
     });
 
     it('includes alpha channel', () => {
       const color = new Color(100, 150, 200, 0.5);
-      expect(color.toRgba()).toBe('rgba(100, 150, 200, 0.5)');
+      expect(color.toRgb()).toBe('rgb(100 150 200 / 0.5)');
     });
 
     it('handles alpha value of 0', () => {
       const color = new Color(255, 0, 0, 0);
-      expect(color.toRgba()).toBe('rgba(255, 0, 0, 0)');
+      expect(color.toRgb()).toBe('rgb(255 0 0 / 0)');
     });
   });
 
   describe('toRgbPercent', () => {
     it('converts RGB to percentage format', () => {
       const color = Color.fromRgb(255, 0, 0);
-      expect(color.toRgbPercent()).toBe('rgb(100%, 0%, 0%)');
+      expect(color.toRgbPercent()).toBe('rgb(100% 0% 0%)');
     });
 
     it('converts 128 to 50%', () => {
       const color = Color.fromRgb(128, 128, 128);
-      expect(color.toRgbPercent()).toBe('rgb(50%, 50%, 50%)');
+      expect(color.toRgbPercent()).toBe('rgb(50% 50% 50%)');
     });
 
     it('converts black', () => {
       const color = Color.fromRgb(0, 0, 0);
-      expect(color.toRgbPercent()).toBe('rgb(0%, 0%, 0%)');
+      expect(color.toRgbPercent()).toBe('rgb(0% 0% 0%)');
     });
 
     it('converts white', () => {
       const color = Color.fromRgb(255, 255, 255);
-      expect(color.toRgbPercent()).toBe('rgb(100%, 100%, 100%)');
+      expect(color.toRgbPercent()).toBe('rgb(100% 100% 100%)');
+    });
+
+    it('includes alpha channel', () => {
+      const color = new Color(100, 150, 200, 0.5);
+      expect(color.toRgbPercent()).toBe('rgb(39% 59% 78% / 50%)');
     });
   });
 
   describe('toHsl', () => {
     it('converts to HSL format', () => {
       const color = Color.fromRgb(255, 0, 0);
-      expect(color.toHsl()).toBe('hsl(0, 100%, 50%)');
+      expect(color.toHsl()).toBe('hsl(0 100% 50%)');
     });
 
     it('converts green to HSL', () => {
       const color = Color.fromRgb(0, 255, 0);
-      expect(color.toHsl()).toBe('hsl(120, 100%, 50%)');
+      expect(color.toHsl()).toBe('hsl(120 100% 50%)');
     });
 
     it('converts blue to HSL', () => {
       const color = Color.fromRgb(0, 0, 255);
-      expect(color.toHsl()).toBe('hsl(240, 100%, 50%)');
+      expect(color.toHsl()).toBe('hsl(240 100% 50%)');
     });
 
     it('converts gray', () => {
       const color = Color.fromRgb(128, 128, 128);
       const hsl = color.toHsl();
-      expect(color.toHsl()).toBe('hsl(0, 0%, 50%)');
+      expect(color.toHsl()).toBe('hsl(0 0% 50%)');
+    });
+
+    it('includes alpha channel', () => {
+      const color = new Color(100, 150, 200, 0.5);
+      expect(color.toHsl()).toBe('hsl(210 48% 59% / 0.5)');
     });
   });
 
   describe('toHsv', () => {
     it('converts to HSV format', () => {
       const color = Color.fromRgb(255, 0, 0);
-      expect(color.toHsv()).toBe('hsv(0, 100%, 100%)');
+      expect(color.toHsv()).toBe('hsv(0 100% 100%)');
     });
 
     it('converts green to HSV', () => {
       const color = Color.fromRgb(0, 255, 0);
-      expect(color.toHsv()).toBe('hsv(120, 100%, 100%)');
+      expect(color.toHsv()).toBe('hsv(120 100% 100%)');
     });
 
     it('converts blue to HSV', () => {
       const color = Color.fromRgb(0, 0, 255);
-      expect(color.toHsv()).toBe('hsv(240, 100%, 100%)');
+      expect(color.toHsv()).toBe('hsv(240 100% 100%)');
+    });
+
+    it('includes alpha channel', () => {
+      const color = new Color(100, 150, 200, 0.5);
+      expect(color.toHsv()).toBe('hsv(210 50% 78% / 0.5)');
     });
   });
 
@@ -313,7 +321,7 @@ describe('Color', () => {
   describe('toString', () => {
     it('returns RGBA format by default', () => {
       const color = new Color(255, 0, 0, 1);
-      expect(color.toString()).toBe('rgba(255, 0, 0, 1)');
+      expect(color.toString()).toBe('rgb(255 0 0)');
     });
   });
 
@@ -336,9 +344,9 @@ describe('Color', () => {
 
     it('converts through multiple formats without loss', () => {
       const color = Color.fromRgb(255, 128, 64);
-      expect(color.toRgb()).toBe('rgb(255, 128, 64)');
+      expect(color.toRgb()).toBe('rgb(255 128 64)');
       expect(color.toHex()).toMatch(/^#[0-9A-F]{6}$/);
-      expect(color.toHsl()).toMatch(/^hsl\(\d+, \d+%, \d+%\)$/);
+      expect(color.toHsl()).toMatch(/^hsl\(\d+ \d+% \d+%\)$/);
     });
   });
 });

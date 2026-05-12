@@ -36,27 +36,23 @@ class Color {
   }
 
   toRgb() {
-    return `rgb(${this.r}, ${this.g}, ${this.b})`;
-  }
-
-  toRgba() {
-    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+    return `rgb(${this.r} ${this.g} ${this.b}${this.a === 1 ? '' : ` / ${this.a}`})`;
   }
 
   toRgbPercent() {
-    return `rgb(${Math.round(this.r / 255 * 100)}%, ${Math.round(this.g / 255 * 100)}%, ${Math.round(this.b / 255 * 100)}%)`;
+    return `rgb(${Math.round(this.r / 255 * 100)}% ${Math.round(this.g / 255 * 100)}% ${Math.round(this.b / 255 * 100)}%${this.a === 1 ? '' : ` / ${Math.round(this.a * 100)}%`})`;
   }
 
   toHsl() {
     const [h, s, l] = convert.rgb.hsl(this.r, this.g, this.b);
 
-    return `hsl(${h}, ${s}%, ${l}%)`;
+    return `hsl(${h} ${s}% ${l}%${this.a === 1 ? '' : ` / ${this.a}`})`;
   }
 
   toHsv() {
     const [h, s, v] = convert.rgb.hsv(this.r, this.g, this.b);
 
-    return `hsv(${h}, ${s}%, ${v}%)`;
+    return `hsv(${h} ${s}% ${v}%${this.a === 1 ? '' : ` / ${this.a}`})`;
   }
 
   toCmyk() {
@@ -80,7 +76,7 @@ class Color {
   }
 
   toString() {
-    return this.toRgba();
+    return this.toRgb();
   }
 }
 

@@ -21,11 +21,11 @@
     </script>
     <noscript><p><img referrerpolicy="no-referrer-when-downgrade" src="//metrics.popp.xyz/matomo.php?idsite=7&amp;rec=1" style="border:0;" alt="" /></p></noscript>
   </head>
-  <body class="font-sans antialiased bg-gray-200 text-gray-500" x-data="colors" x-bind:style="{backgroundColor: color ? color.toRgba() : '#d3d3d3'}">
+  <body class="font-sans antialiased bg-gray-200 text-gray-500" x-data="colors" x-bind:style="{backgroundColor: color ? color.toRgb() : '#d3d3d3'}">
     <div class="flex justify-center items-center min-h-screen p-6">
       <div class="w-full max-w-xl">
         <div class="flex bg-white items-center rounded shadow-lg px-2 py-2">
-          <div class="w-6 h-6 border border-gray-200 rounded-full mr-3 bg-gray-200" x-bind:style="{backgroundColor: color ? color.toRgba() : '#d3d3d3'}"></div>
+          <div class="w-6 h-6 border border-gray-200 rounded-full mr-3 bg-gray-200" x-bind:style="{backgroundColor: color ? color.toRgb() : '#d3d3d3'}"></div>
           <input type="text" class="flex-1 font-mono w-full text-lg outline-none" placeholder="Enter any color value" x-ref="query" x-model="query">
         </div>
 
