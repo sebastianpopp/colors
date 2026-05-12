@@ -2,6 +2,22 @@ import './style.css';
 import Alpine from 'alpinejs';
 import ColorParser from './ColorParser';
 
+function updateFavicon(color) {
+  const favicon = document.querySelector('link[rel="icon"]');
+
+  if (!favicon) {
+    return;
+  }
+
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="12" fill="${color ? color.toHex() : 'none'}" stroke="#e5e7eb" stroke-width="2" />
+    </svg>
+  `;
+
+  favicon.href = `data:image/svg+xml,${encodeURIComponent(svg.trim())}`;
+}
+
 Alpine.data('colors', () => ({
   query: '',
   color: null,
@@ -32,6 +48,8 @@ Alpine.data('colors', () => ({
       this.color = colorParser.isColor()
         ? colorParser.getColor()
         : null;
+
+      updateFavicon(this.color);
 
       if (this.query !== '' && !colors.includes(this.query)) {
         window._paq = window._paq || [];
