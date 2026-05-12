@@ -2,40 +2,12 @@ import './style.css';
 import Alpine from 'alpinejs';
 import Color from './Color';
 
-function updateFavicon(color) {
-  const favicon = document.querySelector('link[rel="icon"]');
-
-  if (!favicon) {
-    return;
-  }
-
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="12" fill="${color ? color.toHex() : 'none'}" stroke="#e5e7eb" stroke-width="2" />
-    </svg>
-  `;
-
-  favicon.href = `data:image/svg+xml,${encodeURIComponent(svg.trim())}`;
-}
-
 Alpine.data('colors', () => ({
   query: '',
   color: null,
 
   init() {
-    const colors = [
-      '#051e3e',
-      '#251e3e',
-      '#451e3e',
-      '#651e3e',
-      '#851e3e',
-      '#fe4a49',
-      '#2ab7ca',
-      '#fed766',
-      '#e6e6ea',
-      '#f4f4f8',
-    ];
-    this.query = colors[Math.floor(Math.random() * colors.length)];
+    this.query = '';
 
     this.$nextTick(() => {
       this.$refs.query.focus();
@@ -43,13 +15,13 @@ Alpine.data('colors', () => ({
     });
 
     Alpine.effect(() => {
-      this.color = Color.fromString(this.query) || null;
+      this.color = Color.fromString(this.query);
 
-      updateFavicon(this.color);
+      this.updateFavicon();
 
       document.title = this.color ? `${this.color.toName()} - Colors` : 'Colors';
 
-      if (this.query !== '' && !colors.includes(this.query)) {
+      if (this.query !== '' && this.color !== null) {
         window._paq = window._paq || [];
         _paq.push(['trackSiteSearch',
           this.query,
@@ -58,6 +30,22 @@ Alpine.data('colors', () => ({
         ]);
       }
     });
+  },
+
+  updateFavicon() {
+    const favicon = document.querySelector('link[rel="icon"]');
+
+    if (!favicon) {
+      return;
+    }
+
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <circle cx="16" cy="16" r="12" fill="${this.color ? this.color.toHex() : 'none'}" stroke="#e5e7eb" stroke-width="2" />
+      </svg>
+    `;
+
+    favicon.href = `data:image/svg+xml,${encodeURIComponent(svg.trim())}`;
   },
 
   copy() {

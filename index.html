@@ -20,12 +20,13 @@
       })();
     </script>
   </head>
-  <body class="font-sans antialiased bg-gray-200 text-gray-500" x-data="colors" x-bind:style="{backgroundColor: color ? color.toRgb() : '#d3d3d3'}">
+  <body class="font-sans antialiased bg-gray-200 text-gray-500" x-data="colors" x-bind:style="{backgroundColor: color ? color.toRgb() : 'var(--color-gray-100)'}">
     <div class="flex justify-center items-center min-h-screen p-6">
       <div class="w-full max-w-xl">
         <div class="flex bg-white items-center rounded shadow-lg px-2 py-2">
-          <div class="w-6 h-6 border border-gray-200 rounded-full mr-3 bg-gray-200" x-bind:style="{backgroundColor: color ? color.toRgb() : '#d3d3d3'}"></div>
-          <input type="text" class="flex-1 font-mono w-full text-lg outline-none" placeholder="Enter any color value" x-ref="query" x-model="query">
+          <div class="w-6 h-6 border border-gray-200 rounded-full mr-3 bg-gray-200" x-bind:style="{backgroundColor: color ? color.toRgb() : 'var(--color-white)'}"></div>
+          <label class="sr-only" for="query">Enter any color value</label>
+          <input id="query" type="text" class="flex-1 font-mono w-full text-lg outline-none" placeholder="Enter any color value" x-ref="query" x-model="query">
         </div>
 
         <template x-if="color !== null">

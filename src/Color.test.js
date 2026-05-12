@@ -177,6 +177,11 @@ describe('Color', () => {
       const color = Color.fromRgb(255, 255, 255);
       expect(color.toHex()).toBe('#FFFFFF');
     });
+
+    it('rounds non rgb values and converts to hex', () => {
+      const color = Color.fromString('rgb(98% 50% 45%)');
+      expect(color.toHex()).toBe('#FA8073');
+    });
   });
 
   describe('toRgb', () => {

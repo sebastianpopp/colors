@@ -10,10 +10,17 @@ class Color {
   }
 
   static fromString(colorString) {
+    if (typeof colorString !== 'string') {
+      return null;
+    }
+
+    colorString = colorString.trim();
+
     try {
       let parsed = cp(colorString);
 
-      if (parsed.space === undefined) {
+      // Handle hex colors without hash
+      if (parsed.space === undefined && /^(([a-f\d]{3})([a-f\d]{3})?)$/i.test(colorString)) {
         parsed = cp('#' + colorString);
       }
 
@@ -51,7 +58,7 @@ class Color {
     const [r, g, b] = this._convertSpace('rgb').values;
 
     return '#' + [r, g, b]
-      .map(value => value.toString(16).padStart(2, '0').toUpperCase())
+      .map(value => Math.round(value).toString(16).padStart(2, '0').toUpperCase())
       .join('') + (this.a < 1 ? Math.round(this.a * 255).toString(16).padStart(2, '0').toUpperCase() : '');
   }
 
