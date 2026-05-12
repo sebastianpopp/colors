@@ -1,4 +1,10 @@
-import convert from 'color-convert';
+import colorNames from 'color-name';
+import cs from 'color-space';
+
+const COLOR_NAME_ENTRIES = Object.entries(colorNames);
+const COLOR_NAME_BY_RGB = new Map(
+  COLOR_NAME_ENTRIES.map(([name, rgb]) => [rgb.join(','), name])
+);
 
 class Color {
   constructor(r, g, b, a) {
@@ -9,7 +15,14 @@ class Color {
   }
 
   static fromHex(hex) {
-    const [r, g, b] = convert.hex.rgb(hex);
+    const value = hex.replace(/^#/, '').trim();
+    const normalizedHex = value.length === 3
+      ? value.split('').map(char => char + char).join('')
+      : value;
+    const parsed = Number.parseInt(normalizedHex, 16);
+    const r = (parsed >> 16) & 255;
+    const g = (parsed >> 8) & 255;
+    const b = parsed & 255;
 
     return new Color(r, g, b, 1);
   }
@@ -28,11 +41,32 @@ class Color {
   }
 
   toName() {
-    return convert.rgb.keyword([this.r, this.g, this.b]);
+    const rgbKey = [this.r, this.g, this.b].join(',');
+    const exactMatch = COLOR_NAME_BY_RGB.get(rgbKey);
+
+    if (typeof exactMatch !== 'undefined') {
+      return exactMatch;
+    }
+
+    let nearestName = 'black';
+    let nearestDistance = Infinity;
+
+    for (const [name, [red, green, blue]] of COLOR_NAME_ENTRIES) {
+      const distance = (this.r - red) ** 2 + (this.g - green) ** 2 + (this.b - blue) ** 2;
+
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestName = name;
+      }
+    }
+
+    return nearestName;
   }
 
   toHex() {
-    return '#' + convert.rgb.hex(this.r, this.g, this.b);
+    return '#' + [this.r, this.g, this.b]
+      .map(value => value.toString(16).padStart(2, '0').toUpperCase())
+      .join('');
   }
 
   toRgb() {
@@ -44,49 +78,24 @@ class Color {
   }
 
   toHsl() {
-    const [h, s, l] = convert.rgb.hsl(this.r, this.g, this.b);
+    const [h, s, l] = cs.rgb.hsl([this.r, this.g, this.b]);
 
-    return `hsl(${h} ${s}% ${l}%${this.a === 1 ? '' : ` / ${this.a}`})`;
+    return `hsl(${Math.round(h)} ${Math.round(s)}% ${Math.round(l)}%${this.a === 1 ? '' : ` / ${this.a}`})`;
   }
 
   toHsv() {
-    const [h, s, v] = convert.rgb.hsv(this.r, this.g, this.b);
+    const [h, s, v] = cs.rgb.hsv([this.r, this.g, this.b]);
 
-    return `hsv(${h} ${s}% ${v}%${this.a === 1 ? '' : ` / ${this.a}`})`;
+    return `hsv(${Math.round(h)} ${Math.round(s)}% ${Math.round(v)}%${this.a === 1 ? '' : ` / ${this.a}`})`;
   }
 
   toOklch() {
-    // Convert RGB to OKLch
-    // First, normalize RGB to 0-1
-    const r = this.r / 255;
-    const g = this.g / 255;
-    const b = this.b / 255;
+    const [L, a, b_lab] = cs.rgb.oklab([this.r, this.g, this.b]);
 
-    // Apply inverse sRGB gamma correction
-    const rLinear = r <= 0.04045 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
-    const gLinear = g <= 0.04045 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4);
-    const bLinear = b <= 0.04045 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4);
-
-    // Convert linear RGB to LMS
-    const l = 0.4122214708 * rLinear + 0.5291605794 * gLinear + 0.0193738469 * bLinear;
-    const m = 0.2119034982 * rLinear + 0.6806995451 * gLinear + 0.1073969566 * bLinear;
-    const s = 0.0883024619 * rLinear + 0.2817188376 * gLinear + 0.6299787005 * bLinear;
-
-    // Convert LMS to OKLab
-    const lCube = Math.cbrt(l);
-    const mCube = Math.cbrt(m);
-    const sCube = Math.cbrt(s);
-
-    const L = 0.2104542553 * lCube + 0.7936177850 * mCube - 0.0040720468 * sCube;
-    const a = 1.9779984951 * lCube - 2.4285922050 * mCube + 0.4505937099 * sCube;
-    const b_lab = 0.0259040371 * lCube + 0.7827717662 * mCube - 0.8086757660 * sCube;
-
-    // Convert OKLab to OKLch
     const C = Math.sqrt(a * a + b_lab * b_lab);
     let h = Math.atan2(b_lab, a) * 180 / Math.PI;
     if (h < 0) h += 360;
 
-    // Format values
     const lightness = Math.round(L * 100);
     const chroma = C.toFixed(3);
     const hue = h.toFixed(3);
@@ -95,9 +104,9 @@ class Color {
   }
 
   toCmyk() {
-    const [c, m, y, k] = convert.rgb.cmyk(this.r, this.g, this.b);
+    const [c, m, y, k] = cs.rgb.cmyk([this.r, this.g, this.b]);
 
-    return `${c}%, ${m}%, ${y}%, ${k}%`;
+    return `${Math.round(c)}%, ${Math.round(m)}%, ${Math.round(y)}%, ${Math.round(k)}%`;
   }
 
   toSwift() {

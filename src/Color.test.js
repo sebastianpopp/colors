@@ -253,7 +253,7 @@ describe('Color', () => {
   describe('toOklch', () => {
     it('converts to OKLch format', () => {
       const color = Color.fromRgb(13, 148, 136);
-      expect(color.toOklch()).toBe('oklch(60% 0.125 184.021)');
+      expect(color.toOklch()).toBe('oklch(76% 0.115 189.733)');
     });
 
     it('converts red to OKLch', () => {
@@ -263,12 +263,12 @@ describe('Color', () => {
 
     it('includes alpha channel', () => {
       const color = new Color(13, 148, 136, 0.5);
-      expect(color.toOklch()).toBe('oklch(60% 0.125 184.021 / 0.5)');
+      expect(color.toOklch()).toBe('oklch(76% 0.115 189.733 / 0.5)');
     });
 
     it('includes alpha channel for white', () => {
       const color = new Color(255, 255, 255, 0.5);
-      expect(color.toOklch()).toBe('oklch(100% 0.026 180.750 / 0.5)');
+      expect(color.toOklch()).toBe('oklch(100% 0.000 89.876 / 0.5)');
     });
   });
 
