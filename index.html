@@ -32,7 +32,7 @@
           <div class="bg-white w-full p-6 rounded shadow-lg mt-3">
             <div class="grid grid-cols-3 gap-x-3 gap-y-2">
               <div class="text-right">Color name</div>
-              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toName()"></span></div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toHtmlName()"></span></div>
 
               <div class="text-right">Hex</div>
               <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toHex()"></span></div>

@@ -1,6 +1,6 @@
 import './style.css';
 import Alpine from 'alpinejs';
-import ColorParser from './ColorParser';
+import Color from './Color';
 
 function updateFavicon(color) {
   const favicon = document.querySelector('link[rel="icon"]');
@@ -43,13 +43,11 @@ Alpine.data('colors', () => ({
     });
 
     Alpine.effect(() => {
-      const colorParser = new ColorParser(this.query);
-
-      this.color = colorParser.isColor()
-        ? colorParser.getColor()
-        : null;
+      this.color = Color.fromString(this.query) || null;
 
       updateFavicon(this.color);
+
+      document.title = this.color ? `${this.color.toName()} - Colors` : 'Colors';
 
       if (this.query !== '' && !colors.includes(this.query)) {
         window._paq = window._paq || [];
