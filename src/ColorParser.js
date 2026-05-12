@@ -1,4 +1,5 @@
-import Color from './Color';
+import Color from './Color.js';
+import htmlColors from './html_colors.json';
 
 class ColorParser {
   constructor(query) {
@@ -26,10 +27,8 @@ class ColorParser {
   }
 
   _parseHtmlColor() {
-    const colors = require('./html_colors.json');
-
-    if (typeof colors[this.query] !== 'undefined') {
-      this.colors.push(Color.fromHex(colors[this.query]));
+    if (typeof htmlColors[this.query] !== 'undefined') {
+      this.colors.push(Color.fromHex(htmlColors[this.query]));
     }
   }
 
@@ -48,7 +47,6 @@ class ColorParser {
 
     if (regex.test(this.query)) {
       const rgb = this.query.match(regex);
-
       const [r, g, b] = rgb.slice(1).map(n => parseInt(n, 10));
 
       if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
@@ -56,13 +54,12 @@ class ColorParser {
       }
     }
   }
-  
+
   _parseRgbPercent() {
     const regex = /^r?g?b?\s*\(?\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)?$/;
 
     if (regex.test(this.query)) {
       const rgb = this.query.match(regex);
-
       const [r, g, b] = rgb.slice(1).map(n => parseInt(n, 10));
 
       if (r >= 0 && r <= 100 && g >= 0 && g <= 100 && b >= 0 && b <= 100) {

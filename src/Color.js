@@ -10,6 +10,7 @@ class Color {
 
   static fromHex(hex) {
     const [r, g, b] = convert.hex.rgb(hex);
+
     return new Color(r, g, b, 1);
   }
 
@@ -48,7 +49,7 @@ class Color {
 
   toHsl() {
     const [h, s, l] = convert.rgb.hsl(this.r, this.g, this.b);
-    
+
     return `hsl(${h}, ${s}%, ${l}%)`;
   }
 

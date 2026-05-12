@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colors</title>
+
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(["disableCookies"]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//metrics.popp.xyz/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '7']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><p><img referrerpolicy="no-referrer-when-downgrade" src="//metrics.popp.xyz/matomo.php?idsite=7&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+  </head>
+  <body class="font-sans antialiased bg-gray-200 text-gray-500" x-data="colors" x-bind:style="{backgroundColor: color ? color.toRgba() : '#d3d3d3'}">
+    <div class="flex justify-center items-center min-h-screen p-6">
+      <div class="w-full max-w-xl">
+        <div class="flex bg-white items-center rounded shadow-lg px-2 py-2">
+          <div class="w-6 h-6 border border-gray-200 rounded-full mr-3 bg-gray-200" x-bind:style="{backgroundColor: color ? color.toRgba() : '#d3d3d3'}"></div>
+          <input type="text" class="flex-1 font-mono w-full text-lg outline-none" placeholder="Enter any color value" x-ref="query" x-model="query">
+        </div>
+
+        <template x-if="color !== null">
+          <div class="bg-white w-full p-6 rounded shadow-lg mt-3">
+            <div class="grid grid-cols-3 gap-x-3 gap-y-2">
+              <div class="text-right">Color name</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toName()"></span></div>
+
+              <div class="text-right">Hex</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toHex()"></span></div>
+
+              <div class="text-right">RGB decimal</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toRgb()"></span></div>
+
+              <div class="text-right">RGB percent</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toRgbPercent()"></span></div>
+
+              <div class="text-right">HSL</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toHsl()"></span></div>
+
+              <div class="text-right">HSV</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toHsv()"></span></div>
+
+              <div class="text-right">CMYK</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toCmyk()"></span></div>
+
+              <div class="text-right">Swift</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toSwift()"></span></div>
+
+              <div class="text-right">Objective-C</div>
+              <div class="col-span-2"><span class="font-mono cursor-pointer" x-on:click="copy()" tooltip="Click to copy" x-text="color && color.toObjc()"></span></div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

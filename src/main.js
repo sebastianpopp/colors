@@ -1,3 +1,4 @@
+import './style.css';
 import Alpine from 'alpinejs';
 import ColorParser from './ColorParser';
 
@@ -19,7 +20,6 @@ Alpine.data('colors', () => ({
       '#f4f4f8',
     ];
     this.query = colors[Math.floor(Math.random() * colors.length)];
-    // this.query = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 
     this.$nextTick(() => {
       this.$refs.query.focus();
@@ -41,18 +41,15 @@ Alpine.data('colors', () => ({
           this.color === null ? 0 : 1
         ]);
       }
-    })
+    });
   },
 
   copy() {
     const value = this.$el.innerText;
 
     navigator.clipboard.writeText(value);
-
     this.$el.setAttribute('tooltip', 'Copied!');
-    setTimeout(() => {
-      this.$el.setAttribute('tooltip', 'Click to copy');
-    }, 2000);
+    setTimeout(() => this.$el.setAttribute('tooltip', 'Click to copy'), 2000);
   }
 }));
 
