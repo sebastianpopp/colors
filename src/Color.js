@@ -14,16 +14,16 @@ class Color {
     return new Color(r, g, b, 1);
   }
 
-  static fromRgb(r, g, b) {
-    return new Color(r, g, b, 1);
+  static fromRgb(r, g, b, a = 1) {
+    return new Color(r, g, b, a);
   }
 
-  static fromRgbPercent(r, g, b) {
+  static fromRgbPercent(r, g, b, a = 1) {
     return new Color(
       Math.round(r / 100 * 255),
       Math.round(g / 100 * 255),
       Math.round(b / 100 * 255),
-      1
+      a
     );
   }
 
